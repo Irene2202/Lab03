@@ -62,13 +62,13 @@ public class FXMLController {
     	richWordErrate=this.model.spellCheckText(words);
     	
     	for(RichWord r:richWordErrate) {
-    		txtErrori.appendText(r.getParola());
+    		txtErrori.appendText(r.getParola()+"\n");
     	}
     	
-    	txtNumeroErrori.setText(Integer.toString(richWordErrate.size()));
+    	txtNumeroErrori.setText("The text contains "+Integer.toString(richWordErrate.size())+" errors");
     	
     	long tempoFin=System.nanoTime()-tempoIn;
-    	txtRunTime.setText("Tempo impiegato (in nanosecondi): "+tempoFin);
+    	txtRunTime.setText("Tempo impiegato per lo Spell Check(in nanosecondi): "+tempoFin);
 
     }
 
