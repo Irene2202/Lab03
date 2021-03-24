@@ -4,18 +4,26 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 public class Dictionary {
 	
-	Set<String> dictionary;
+	//Set<String> dictionary;
+	List<String> dictionary;
 	
+	String language;
 	
 	
 	public Dictionary() {
-		dictionary=new HashSet<>();
+		//dictionary=new HashSet<>();
+		//dictionary=new LinkedList<>();
+		dictionary=new ArrayList<>();
+		
+		this.language="";
 	}
 
 	/**
@@ -23,6 +31,10 @@ public class Dictionary {
 	 * @param language
 	 */
 	public void loadDictionary(String language) {
+		if(this.language.equals(language))
+			return ;
+		
+		this.language=language;
 		dictionary.clear();
 
 		if(language.equals("English")) {
@@ -77,6 +89,57 @@ public class Dictionary {
 			if(dictionary.contains(s)) {
 				parola.setCorretta(true);
 			}
+			
+			if(!parola.isCorretta())
+				paroleErrate.add(parola);			
+		}
+		
+		return paroleErrate;
+	}
+	
+	/**
+	 * Esegue lo Spell Check con una ricerca lineare
+	 * @param inputTextList
+	 * @return
+	 */
+	public List<RichWord> spellCheckTextLinear(List<String> inputTextList){
+		List<RichWord> paroleErrate=new ArrayList<>();
+		RichWord parola;
+		
+		for(String s:inputTextList) {
+			parola=new RichWord(s);
+			
+			for(String si:dictionary) {
+				if(si.equals(s)) {
+					parola.setCorretta(true);
+					break;
+				}
+			}
+			
+			if(!parola.isCorretta())
+				paroleErrate.add(parola);			
+		}
+		
+		return paroleErrate;
+	}
+	
+	/**
+	 * Esegue lo Spell Check con una ricerca dicotomica
+	 * @param inputTextList
+	 * @return
+	 */
+	public List<RichWord> spellCheckTextDichotomic(List<String> inputTextList){
+		List<RichWord> paroleErrate=new ArrayList<>();
+		RichWord parola;
+		int index;
+		
+		for(String s:inputTextList) {
+			parola=new RichWord(s);
+			//il metodo restituisce l'indice a cui viene trovato l'elemento nella lista 'dictionary'
+			//eseguendo una ricerca dicotomica; se non lo trova l'indice assume valori negativi
+			index=Collections.binarySearch(dictionary, s);
+			if(index>=0)
+				parola.setCorretta(true);
 			
 			if(!parola.isCorretta())
 				paroleErrate.add(parola);			

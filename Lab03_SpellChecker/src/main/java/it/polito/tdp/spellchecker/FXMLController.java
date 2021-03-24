@@ -60,6 +60,8 @@ public class FXMLController {
     	
     	List<RichWord> richWordErrate=new ArrayList<>();
     	richWordErrate=this.model.spellCheckText(words);
+    	//richWordErrate=this.model.spellCheckTextLinear(words);
+    	//richWordErrate=this.model.spellCheckTextDichotomic(words);
     	
     	for(RichWord r:richWordErrate) {
     		txtErrori.appendText(r.getParola()+"\n");
